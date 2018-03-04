@@ -8,3 +8,4 @@ npm-debug.*
 /test/fixtures/**/downloaded
 
 /dev
+/.idea

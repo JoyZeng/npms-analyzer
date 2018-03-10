@@ -182,9 +182,9 @@ exports.handler = (argv) => {
 
     // get_intermediate_metrics('npms-api-data.txt', 'evaluation_from_raw_data.csv');
 
-    // aggregate_modified('npms-api-data.txt', 'aggregation_from_api.json');
+    aggregate_modified('npms-api-data.txt', 'aggregation_api.json');
 
-    // TODO: Calculate our own evaluation
-    // generate_modified_data('npms-api-data.txt', 'npms-modified-data.txt');
-    // aggregate_modified('npms-modified-data.txt', 'aggregation_modified.json');
+    generate_modified_data('npms-api-data.txt', 'npms-modified-data.txt');
+
+    aggregate_modified('npms-modified-data.txt', 'aggregation_modified.json');
 };

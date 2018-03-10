@@ -40,7 +40,8 @@ function calculateScoreWithAggregation(inputFile, aggregationFile, outputFile) {
         }
         const lineObject = JSON.parse(line);
         const data = score(lineObject, aggregation);
-        const output_line = data.collected.metadata.name + ',' + data.evaluation.popularity.communityInterest + ',' +
+        const name = lineObject.collected.metadata.name;
+        const output_line = name + ',' + data.evaluation.popularity.communityInterest + ',' +
             data.evaluation.popularity.downloadsCount + ',' + data.evaluation.popularity.downloadsAcceleration + ',' +
             data.evaluation.popularity.dependentsCount + ',' + data.evaluation.maintenance.releasesFrequency + ',' +
             data.evaluation.maintenance.commitsFrequency + ',' + data.evaluation.maintenance.openIssues + ',' +
@@ -49,7 +50,7 @@ function calculateScoreWithAggregation(inputFile, aggregationFile, outputFile) {
             data.score.final + ',' + data.score.detail.popularity + ',' + data.score.detail.maintenance + ',' + data.score.detail.quality + ',';
 
         fs.appendFile(outputFile, output_line + '\n', (err) => {
-            if (err) log.error('package ' + data.collected.metadata.name + ' failed. ' + err);
+            if (err) log.error('package ' + name + ' failed. ' + err);
         });
     });
 

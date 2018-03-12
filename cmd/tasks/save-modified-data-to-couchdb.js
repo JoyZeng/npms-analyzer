@@ -5,13 +5,15 @@ const config = require('config');
 const analyze = require('../../lib/analyze');
 const bootstrap = require('../util/bootstrap');
 const stats = require('../util/stats');
-const evaluate = require('../../lib/analyze/evaluate');
+const evaluate_modified = require('../../lib/analyze/evaluate_modified');
+
 
 // Need JSON.parse & JSON stringify because of config reserved words
 // See: https://github.com/lorenwest/node-config/issues/223
 const blacklist = JSON.parse(JSON.stringify(config.get('blacklist')));
 const githubTokens = config.get('githubTokens');
-const log = logger.child({ module: 'cli/save-data-to-couchdb' });
+const log = logger.child({ module: 'cli/save-modified-data-to-couchdb' +
+    '' });
 
 /**
  * Handles a message.
@@ -73,7 +75,8 @@ function onFailedAnalysis(name, err, npmsNano, esClient) {
 
 // ----------------------------------------------------------------------------
 
-exports.command = 'save-data-to-couchdb [options]';
+exports.command = 'save-modified-data-to-couchdb' +
+    ' [options]';
 exports.describe = 'Starts observing module changes and pushes them into the queue';
 
 exports.builder = (yargs) =>
@@ -94,13 +97,14 @@ Consumes packages that are queued, triggering the analysis process for each pack
     });
 
 exports.handler = (argv) => {
-    process.title = 'npms-analyzer-save-data-to-couchdb';
+    process.title = 'npms-analyzer-save-modified-data-to-couchdb' +
+        '';
     logger.level = argv.logLevel || 'warn';
 
     // Bootstrap dependencies on external services
 
     const inputFile = 'npms-api-data.txt';
-    bootstrap(['couchdbNpms'], { wait: true })
+    bootstrap(['couchdbNpmsModified'], { wait: true })
     .spread((npmsNano) => {
 
         var fs = require('fs'),
@@ -120,7 +124,7 @@ exports.handler = (argv) => {
 
             log.debug(`Evaluating ${name}..`);
 
-            const evaluation = evaluate(analysis.collected);
+            const evaluation = evaluate_modified(analysis.collected);
             analysis.evaluation = evaluation;
             delete analysis.score;
 

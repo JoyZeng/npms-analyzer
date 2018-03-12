@@ -3,8 +3,8 @@
 const measure = require('../../lib/analyze/measure');
 const evaluate = require('../../lib/analyze/evaluate');
 const evaluate_modified = require('../../lib/analyze/evaluate_modified');
-const aggregate_modified = require('../../lib/scoring_modified/aggregate');
-const score = require('../../lib/scoring_modified/score');
+const aggregate_modified = require('../../lib/scoring_save_to_file/aggregate');
+const score = require('../../lib/scoring_save_to_file/score');
 const weightedMean = require('weighted-mean');
 const fs = require('fs');
 const log = logger.child({ module: 'cli/evaluate-from-raw-data' });
@@ -182,9 +182,9 @@ exports.handler = (argv) => {
 
     // get_intermediate_metrics('npms-api-data.txt', 'evaluation_from_raw_data.csv');
 
-    aggregate_modified('npms-api-data.txt', 'aggregation_api.json');
+    // aggregate_modified('npms-api-data.txt', 'aggregation_api.json');
 
-    generate_modified_data('npms-api-data.txt', 'npms-modified-data.txt');
+    // generate_modified_data('npms-api-data.txt', 'npms-modified-data.txt');
 
     aggregate_modified('npms-modified-data.txt', 'aggregation_modified.json');
 };

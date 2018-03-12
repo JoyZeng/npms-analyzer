@@ -1,6 +1,6 @@
 'use strict';
 
-const score = require('../../lib/scoring_modified/score');
+const score = require('../../lib/scoring_save_to_file/score');
 const fs = require('fs');
 const log = logger.child({ module: 'cli/calculate-score' });
 
@@ -39,8 +39,9 @@ function calculateScoreWithAggregation(inputFile, aggregationFile, outputFile) {
             return;
         }
         const lineObject = JSON.parse(line);
-        const data = score(lineObject, aggregation);
         const name = lineObject.collected.metadata.name;
+        const data = score(lineObject, aggregation);
+
         const output_line = name + ',' + data.evaluation.popularity.communityInterest + ',' +
             data.evaluation.popularity.downloadsCount + ',' + data.evaluation.popularity.downloadsAcceleration + ',' +
             data.evaluation.popularity.dependentsCount + ',' + data.evaluation.maintenance.releasesFrequency + ',' +
@@ -73,7 +74,7 @@ exports.handler = (argv) => {
 
     log.info('Starting packages calculate score');
 
-    calculateScoreWithAggregation('npms-api-data.txt', 'aggregation_api.json', 'score_api.csv');
+    // calculateScoreWithAggregation('npms-api-data.txt', 'aggregation_api.json', 'score_api.csv');
 
     calculateScoreWithAggregation('npms-modified-data.txt', 'aggregation_modified.json', 'score_modified.csv');
 

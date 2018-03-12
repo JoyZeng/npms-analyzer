@@ -32,15 +32,16 @@ function bootstrap(deps, options) {
 
     return Promise.map(deps, (dep) => {
         switch (dep) {
-        case 'couchdbNpm':
-        case 'couchdbNpms':
-            return bootstrapCouchdb(config.get(dep), options);
-        case 'elasticsearch':
-            return bootstrapElasticsearch(config.get('elasticsearch'), options);
-        case 'queue':
-            return bootstrapQueue(config.get('queue'), options);
-        default:
-            throw new Error(`Unknown dependency: ${dep}`);
+            case 'couchdbNpm':
+            case 'couchdbNpms':
+            case 'couchdbNpmsModified':
+                return bootstrapCouchdb(config.get(dep), options);
+            case 'elasticsearch':
+                return bootstrapElasticsearch(config.get('elasticsearch'), options);
+            case 'queue':
+                return bootstrapQueue(config.get('queue'), options);
+            default:
+                throw new Error(`Unknown dependency: ${dep}`);
         }
     });
 }
